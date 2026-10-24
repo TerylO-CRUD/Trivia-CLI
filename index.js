@@ -34,3 +34,58 @@ const questions =
         ], answer: 1 
     },
 ];
+    async function play() 
+    {
+        let score = 0;
+        let gameOver = false;
+        
+        const gameTimer = setTimeout(() =>
+        {
+            gameOver =true;
+        },120 * 1000
+        );
+        
+            for (const q of questions) 
+            {
+                if (gameOver) 
+                {
+                    console.log("Game time is up!");
+                    break;
+                }   
+                console.log("\n" + q.text);
+            for (let i = 0; i < q.options.length; i++) 
+            {
+                console.log((i + 1) + ") " + q.options[i]);
+            }
+
+        let tooSlow = false;
+        const questionTimer = setTimeout(() => 
+        {
+            tooSlow = true;
+        }, 15 * 1000);
+
+        const reply = await rl.question("Your answer: ");
+            clearTimeout(questionTimer);
+
+                if (tooSlow) 
+                {
+                    console.log("Too slow! No point.");
+                } 
+                else if (Number(reply) === q.answer) 
+                {
+                    console.log("Correct!");
+                    score++;
+                } 
+                else 
+                {
+                    console.log("Wrong. Answer was " + q.answer);
+                }
+            }   
+    
+        
+            clearTimeout(gameTimer);
+                console.log("\nScore: " + score + "/" + questions.length);
+                rl.close();
+    }
+            
+    play();
